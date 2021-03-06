@@ -104,27 +104,50 @@ const lightboxModal = document.querySelector(".js-lightbox")
 galleryContainer.addEventListener('click', onOpenModal)
 function onOpenModal(event) {
   event.preventDefault();
+  
 
   if (!event.target.classList.contains('gallery__image')) {
   return
 }
  
   lightboxModal.classList.add('is-open');
-
+window.addEventListener('keydown', onEscKeyPress)
   modalImg.src = event.target.dataset.source
   modalImg.alt = event.target.alt
 }
 
 //Закриття модального вікна
-const buttonModalClose = querySelector('.lightbox__button');
+const buttonModalClose = document.querySelector('[data-action="close-lightbox"]');
 buttonModalClose.addEventListener('click', onModalClose)
 
-function onModalClose(event) {
+function onModalClose() {
+  lightboxModal.classList.remove('is-open');
+    modalImg.src = ''
+  modalImg.alt = ''
+  window.removeEventListener('keydown', onEscKeyPress)
+
+}
+const modalOverlay = document.querySelector('.lightbox__overlay')
+modalOverlay.addEventListener('click', OnOverlayClick);
+function OnOverlayClick(event) {
   if (event.target === event.currentTarget) {
-    buttonModalClose.classList.remove('is-open')
-  refs.modalImg.src = ''
-  refs.modalImg.alt = ''
+    onModalClose()
   }
 }
+function onEscKeyPress(event) {
+  if (event.code === 'Escape') {
+    onModalClose();
+  }
+}
+ 
+
+
+// const closeModalBtn=document.querySelector('[data-action="close-lightbox"]')
+// closeModalBtn.addEventListener('click', onCloseModal);
+
+// function onCloseModal() {
+//   window.removeEventListener('keydown', onEscKeyPress);
+//   lightboxModal.classList.remove('is-open');
+// }
 
 
