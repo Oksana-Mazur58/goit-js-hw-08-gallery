@@ -13,7 +13,7 @@ const modalImg = document.querySelector('.lightbox__image');
 
 function getImgAttributes (src, ult) {
     modalImg.src = src;
-    modalImg.alt = alt;
+    modalImg.ult = ult;
 }
 
 // Открытие модального окна по клику на элементе галереи.
@@ -56,3 +56,35 @@ function OnOverlayClick(event) {
     onModalClose()
   }
 }
+// 
+const arrayWithAllOriginal = pictures.map(elenent => elenent.original);
+const arrayWithAllDescription = pictures.map(elenent => elenent.description);
+console.log(arrayWithAllOriginal);
+function onModalChangeImgByKeyDown(event) {
+    let indexOfImg = arrayWithAllOriginal.indexOf(modalImg.src);
+    let indexOfAlt = indexOfImg;
+    const indexOfLastElement = arrayWithAllOriginal.length - 1;
+    if (event.code === 'ArrowRight') {
+        if (indexOfImg > indexOfLastElement) {
+            indexOfImg += 1;
+            indexOfAlt += 1;
+            getImgAttributes(arrayWithAllOriginal[indexOfImg], arrayWithAllDescription[indexOfImg])
+        }
+        else if (indexOfImg === arrayWithAllOriginal[indexOfLastElement]) {
+            getImgAttributes(arrayWithAllOriginal[0], arrayWithAllDescription[0])
+        }
+    }
+    else if (event.code === "ArrowLeft") {
+        if (indexOfImg > 0) {
+            indexOfImg -= 1;
+            indexOfAlt -= 1;
+            getImgAttributes(arrayWithAllOriginal[indexOfImg], arrayWithAllDescription[indexOfImg])
+        }
+        else {
+            getImgAttributes(arrayWithAllOriginal[indexOfLastElement], arrayWithAllOriginal[indexOfLastElement]);
+        }
+    }
+}
+
+
+
