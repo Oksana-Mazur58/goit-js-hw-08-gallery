@@ -1,4 +1,4 @@
-const pictures= [
+export default [
   {
     preview:
       'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -63,91 +63,9 @@ const pictures= [
     description: 'Lighthouse Coast Sea',
   },
 ];
-// Создание и рендер разметки по массиву данных и предоставленному шаблону.
-// Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
-// Открытие модального окна по клику на элементе галереи.
-// Подмена значения атрибута src элемента img.lightbox__image.
-// Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
-// Очистка значения атрибута src элемента img.lightbox__image.Это необходимо для того,
-//   чтобы при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее.
 
-const galleryContainer = document.querySelector('.gallery');
-
-const picturesOfGallery = createGalleryCard(pictures);
-galleryContainer.insertAdjacentHTML('beforeend', picturesOfGallery);
-
-
-
-//функція створення картинок галареї
-function createGalleryCard(pictures) {
-  return pictures.map(({ original, preview, description }) => {
-    return `<li class="gallery__item">
-  <a
-    class="gallery__link"
-    href="${original}"
-  >
-    <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>`
-  }).join('');
-}
-// url большого изображения
-const modalImg = document.querySelector('.lightbox__image')
-
-// Открытие модального окна по клику на элементе галереи.
-const lightboxModal = document.querySelector(".js-lightbox")
-galleryContainer.addEventListener('click', onOpenModal)
-function onOpenModal(event) {
-  event.preventDefault();
-  
-
-  if (!event.target.classList.contains('gallery__image')) {
-  return
-}
- 
-  lightboxModal.classList.add('is-open');
-window.addEventListener('keydown', onEscKeyPress)
-  modalImg.src = event.target.dataset.source
-  modalImg.alt = event.target.alt
-}
-
-//Закриття модального вікна
-const buttonModalClose = document.querySelector('[data-action="close-lightbox"]');
-buttonModalClose.addEventListener('click', onModalClose)
-
-function onModalClose() {
-  lightboxModal.classList.remove('is-open');
-    modalImg.src = ''
-  modalImg.alt = ''
-  window.removeEventListener('keydown', onEscKeyPress)
-
-}
-const modalOverlay = document.querySelector('.lightbox__overlay')
-modalOverlay.addEventListener('click', OnOverlayClick);
-function OnOverlayClick(event) {
-  if (event.target === event.currentTarget) {
-    onModalClose()
-  }
-}
-function onEscKeyPress(event) {
-  if (event.code === 'Escape') {
-    onModalClose();
-  }
-}
  
 
 
-// const closeModalBtn=document.querySelector('[data-action="close-lightbox"]')
-// closeModalBtn.addEventListener('click', onCloseModal);
-
-// function onCloseModal() {
-//   window.removeEventListener('keydown', onEscKeyPress);
-//   lightboxModal.classList.remove('is-open');
-// }
 
 
